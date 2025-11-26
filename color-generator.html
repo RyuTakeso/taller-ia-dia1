@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Colores Aleatorios</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 40px 30px;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 28px;
+            font-weight: 600;
+        }
+
+        .color-display {
+            width: 100%;
+            height: 300px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            background-color: #667eea;
+            transition: background-color 0.4s ease;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: scale(0.95);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .color-code {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 2px;
+            padding: 15px;
+            background-color: #f5f5f5;
+            border-radius: 10px;
+            word-break: break-all;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        button {
+            flex: 1;
+            min-width: 150px;
+            padding: 15px 25px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        #generateBtn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        #generateBtn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        #generateBtn:active {
+            transform: translateY(-1px);
+        }
+
+        #copyBtn {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+
+        #copyBtn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 25px rgba(245, 87, 108, 0.4);
+        }
+
+        #copyBtn:active {
+            transform: translateY(-1px);
+        }
+
+        .feedback {
+            font-size: 14px;
+            color: #667eea;
+            font-weight: 600;
+            height: 20px;
+            margin-top: 10px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .feedback.show {
+            opacity: 1;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px 20px;
+            }
+
+            h1 {
+                font-size: 24px;
+                margin-bottom: 20px;
+            }
+
+            .color-display {
+                height: 250px;
+                margin-bottom: 20px;
+            }
+
+            .button-group {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            button {
+                width: 100%;
+                min-width: auto;
+            }
+
+            .color-code {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Generador de Colores Aleatorios</h1>
+        
+        <div class="color-display" id="colorDisplay"></div>
+        
+        <p class="color-code" id="colorCode">#667EEA</p>
+        
+        <div class="button-group">
+            <button id="generateBtn">Generar Color</button>
+            <button id="copyBtn">Copiar Código</button>
+        </div>
+        
+        <div class="feedback" id="feedback"></div>
+    </div>
+
+    <script>
+        // Obtener referencias a los elementos del DOM
+        const colorDisplay = document.getElementById('colorDisplay');
+        const colorCode = document.getElementById('colorCode');
+        const generateBtn = document.getElementById('generateBtn');
+        const copyBtn = document.getElementById('copyBtn');
+        const feedback = document.getElementById('feedback');
+
+        /**
+         * Genera un color hexadecimal aleatorio
+         * @returns {string} Color en formato #RRGGBB
+         * 
+         * Explicación:
+         * - Math.random() genera un número entre 0 y 1
+         * - Multiplicamos por 16777215 (0xFFFFFF en decimal) para obtener un número entre 0 y 16777215
+         * - Math.floor() redondea hacia abajo
+         * - toString(16) convierte el número a formato hexadecimal
+         * - padStart(6, '0') añade ceros al inicio si es necesario (ej: 000000)
+         * - toUpperCase() convierte a mayúsculas
+         */
+        function generateRandomColor() {
+            const randomNumber = Math.floor(Math.random() * 16777215);
+            const hexColor = '#' + randomNumber.toString(16).padStart(6, '0').toUpperCase();
+            return hexColor;
+        }
+
+        /**
+         * Actualiza el color mostrado en la página
+         * - Genera un nuevo color aleatorio
+         * - Cambia el fondo del div
+         * - Actualiza el texto con el código hexadecimal
+         */
+        function updateColor() {
+            const newColor = generateRandomColor();
+            colorDisplay.style.backgroundColor = newColor;
+            colorCode.textContent = newColor;
+            showFeedback('');
+        }
+
+        /**
+         * Copia el código del color al portapapeles
+         * - Obtiene el código hexadecimal actual
+         * - Usa la API del navegador para copiar al portapapeles
+         * - Muestra un mensaje de confirmación
+         */
+        async function copyToClipboard() {
+            const colorToCopy = colorCode.textContent;
+            
+            try {
+                // Usar la API moderna del portapapeles (compatible con navegadores modernos)
+                await navigator.clipboard.writeText(colorToCopy);
+                showFeedback('✓ Código copiado al portapapeles!');
+            } catch (err) {
+                // Fallback para navegadores más antiguos
+                copyToClipboardFallback(colorToCopy);
+            }
+        }
+
+        /**
+         * Método alternativo para copiar al portapapeles (compatibilidad)
+         * Se usa si la API moderna no está disponible
+         */
+        function copyToClipboardFallback(text) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            
+            try {
+                document.execCommand('copy');
+                showFeedback('✓ Código copiado al portapapeles!');
+            } catch (err) {
+                showFeedback('✗ Error al copiar el código');
+            }
+            
+            document.body.removeChild(textarea);
+        }
+
+        /**
+         * Muestra un mensaje de feedback temporal
+         * @param {string} message - Mensaje a mostrar
+         * 
+         * El mensaje se mostrará durante 2 segundos y luego desaparecerá
+         */
+        function showFeedback(message) {
+            feedback.textContent = message;
+            feedback.classList.add('show');
+            
+            // Ocultar el mensaje después de 2 segundos
+            setTimeout(() => {
+                feedback.classList.remove('show');
+            }, 2000);
+        }
+
+        // Agregar event listeners a los botones
+        generateBtn.addEventListener('click', updateColor);
+        copyBtn.addEventListener('click', copyToClipboard);
+
+        // Generar un color inicial cuando se carga la página
+        updateColor();
+    </script>
+</body>
+</html>

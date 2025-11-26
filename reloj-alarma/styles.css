@@ -1,0 +1,381 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Courier New', monospace;
+    background: linear-gradient(135deg, #0a0e27 0%, #1a1a3e 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #00ff88;
+}
+
+.container {
+    width: 100%;
+    max-width: 500px;
+    padding: 20px;
+}
+
+/* Saludo dinámico */
+.greeting {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 30px;
+    color: #00ffff;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+    font-weight: bold;
+    animation: glow 2s ease-in-out infinite;
+}
+
+/* Contenedor del reloj */
+.clock-container {
+    background: #0d1117;
+    border: 3px solid #00ff88;
+    border-radius: 15px;
+    padding: 40px 30px;
+    margin-bottom: 30px;
+    box-shadow: 
+        0 0 20px rgba(0, 255, 136, 0.3),
+        inset 0 0 20px rgba(0, 255, 136, 0.1);
+}
+
+/* Display del reloj */
+.clock-display {
+    font-size: 72px;
+    font-weight: bold;
+    text-align: center;
+    color: #00ff88;
+    margin-bottom: 20px;
+    letter-spacing: 5px;
+    text-shadow: 
+        0 0 10px rgba(0, 255, 136, 0.5),
+        0 0 20px rgba(0, 255, 136, 0.3);
+    font-family: 'Courier New', monospace;
+    line-height: 1;
+}
+
+/* Display de fecha */
+.date-display {
+    font-size: 18px;
+    text-align: center;
+    color: #00ffff;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+    letter-spacing: 2px;
+}
+
+/* Toggle de formato */
+.format-toggle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 30px;
+    background: rgba(0, 255, 136, 0.1);
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #00ff88;
+}
+
+.format-toggle label {
+    color: #00ff88;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.toggle-btn {
+    background: #00ff88;
+    color: #0a0e27;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.toggle-btn:hover {
+    background: #00ffaa;
+    box-shadow: 0 0 15px rgba(0, 255, 136, 0.5);
+}
+
+.toggle-btn:active {
+    transform: scale(0.95);
+}
+
+/* Sección de alarma */
+.alarm-section {
+    background: #0d1117;
+    border: 2px solid #ff0066;
+    border-radius: 12px;
+    padding: 25px;
+    margin-bottom: 30px;
+    box-shadow: 0 0 15px rgba(255, 0, 102, 0.2);
+}
+
+.alarm-section h2 {
+    color: #ff0066;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 20px;
+    text-shadow: 0 0 10px rgba(255, 0, 102, 0.3);
+}
+
+.alarm-input-group {
+    margin-bottom: 20px;
+}
+
+.alarm-input-group label {
+    display: block;
+    color: #00ff88;
+    margin-bottom: 10px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.alarm-input {
+    width: 100%;
+    padding: 12px;
+    background: #1a1a3e;
+    border: 2px solid #00ff88;
+    border-radius: 8px;
+    color: #00ff88;
+    font-size: 16px;
+    font-family: 'Courier New', monospace;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.alarm-input:focus {
+    outline: none;
+    border-color: #00ffff;
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+}
+
+/* Grupo de botones */
+.button-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.btn {
+    flex: 1;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Courier New', monospace;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn-set {
+    background: #00ff88;
+    color: #0a0e27;
+}
+
+.btn-set:hover:not(:disabled) {
+    background: #00ffaa;
+    box-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+    transform: translateY(-2px);
+}
+
+.btn-set:disabled {
+    background: #555;
+    color: #999;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.btn-cancel {
+    background: #ff0066;
+    color: white;
+}
+
+.btn-cancel:hover:not(:disabled) {
+    background: #ff3388;
+    box-shadow: 0 0 20px rgba(255, 0, 102, 0.5);
+    transform: translateY(-2px);
+}
+
+.btn-cancel:disabled {
+    background: #555;
+    color: #999;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.btn-dismiss {
+    background: #ff0066;
+    color: white;
+    width: 100%;
+}
+
+.btn-dismiss:hover {
+    background: #ff3388;
+    box-shadow: 0 0 20px rgba(255, 0, 102, 0.5);
+}
+
+.btn:active:not(:disabled) {
+    transform: scale(0.95);
+}
+
+/* Estado de alarma */
+.alarm-status {
+    padding: 15px;
+    background: rgba(255, 0, 102, 0.1);
+    border: 1px solid #ff0066;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.alarm-status.active {
+    background: rgba(0, 255, 136, 0.1);
+    border-color: #00ff88;
+}
+
+.status-text {
+    color: #ff0066;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.alarm-status.active .status-text {
+    color: #00ff88;
+}
+
+/* Notificación de alarma */
+.notification {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #0d1117;
+    border: 3px solid #ff0066;
+    border-radius: 15px;
+    padding: 40px;
+    z-index: 1000;
+    box-shadow: 
+        0 0 50px rgba(255, 0, 102, 0.7),
+        0 0 100px rgba(255, 0, 102, 0.5);
+    max-width: 400px;
+    text-align: center;
+}
+
+.notification.show {
+    display: block;
+    animation: popIn 0.3s ease, blink 0.6s ease infinite;
+}
+
+.notification-content h3 {
+    color: #ff0066;
+    font-size: 32px;
+    margin-bottom: 20px;
+    text-shadow: 0 0 20px rgba(255, 0, 102, 0.7);
+    animation: blink 0.6s ease infinite;
+}
+
+.notification-content p {
+    color: #00ff88;
+    font-size: 18px;
+    margin-bottom: 30px;
+}
+
+/* Overlay para la alarma */
+.alarm-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 0, 102, 0.2);
+    z-index: 999;
+}
+
+.alarm-overlay.show {
+    display: block;
+    animation: overlayFlash 0.6s ease infinite;
+}
+
+/* Animaciones */
+@keyframes glow {
+    0%, 100% {
+        text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+    }
+    50% {
+        text-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
+    }
+}
+
+@keyframes blink {
+    0%, 49% {
+        opacity: 1;
+    }
+    50%, 100% {
+        opacity: 0.3;
+    }
+}
+
+@keyframes overlayFlash {
+    0%, 49% {
+        background: rgba(255, 0, 102, 0.3);
+    }
+    50%, 100% {
+        background: rgba(255, 0, 102, 0.1);
+    }
+}
+
+@keyframes popIn {
+    0% {
+        transform: translate(-50%, -50%) scale(0.8);
+        opacity: 0;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .clock-display {
+        font-size: 48px;
+        letter-spacing: 3px;
+    }
+
+    .greeting {
+        font-size: 18px;
+        margin-bottom: 20px;
+    }
+
+    .alarm-section {
+        padding: 20px;
+    }
+
+    .notification {
+        padding: 30px 20px;
+        max-width: 90%;
+    }
+
+    .notification-content h3 {
+        font-size: 24px;
+    }
+
+    .button-group {
+        flex-direction: column;
+    }
+
+    .btn {
+        width: 100%;
+    }
+}
