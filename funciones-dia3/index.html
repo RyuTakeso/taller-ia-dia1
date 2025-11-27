@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Funciones Día 3 - Áreas y Palíndromos</title>
+    <style>
+        :root {
+            --primary-color: #6366f1;
+            --secondary-color: #4f46e5;
+            --bg-color: #f3f4f6;
+            --card-bg: #ffffff;
+            --text-color: #1f2937;
+            --text-secondary: #6b7280;
+            --success-color: #10b981;
+            --error-color: #ef4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 1rem;
+        }
+
+        .tab-button {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            background: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .tab-button.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+
+        .tab-button:hover {
+            color: var(--primary-color);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .section {
+            background-color: var(--card-bg);
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .section h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 0.75rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: border-color 0.2s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .input-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .input-group {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        button:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .result {
+            background-color: #f0f9ff;
+            border-left: 4px solid var(--primary-color);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-top: 1.5rem;
+            display: none;
+        }
+
+        .result.show {
+            display: block;
+        }
+
+        .result.success {
+            background-color: #ecfdf5;
+            border-left-color: var(--success-color);
+        }
+
+        .result.error {
+            background-color: #fef2f2;
+            border-left-color: var(--error-color);
+        }
+
+        .result-label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .result-value {
+            font-size: 1.25rem;
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+
+        .result.success .result-value {
+            color: var(--success-color);
+        }
+
+        .result.error .result-value {
+            color: var(--error-color);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-secondary);
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>⚙️ Funciones Día 3</h1>
+        <p>Cálculo de Áreas, Volúmenes y Detección de Palíndromos</p>
+    </header>
+
+    <div class="container">
+        <div class="tabs">
+            <button class="tab-button active" data-tab="areas">📐 Áreas y Volúmenes</button>
+            <button class="tab-button" data-tab="palindromos">🔤 Palíndromos</button>
+        </div>
+
+        <!-- TAB: Áreas y Volúmenes -->
+        <div id="areas" class="tab-content active">
+            <!-- Círculo -->
+            <div class="section">
+                <h2>Área del Círculo</h2>
+                <div class="form-group">
+                    <label for="radioCirculo">Radio:</label>
+                    <input type="number" id="radioCirculo" placeholder="Ej: 5" step="0.01">
+                </div>
+                <button onclick="calcularAreaCirculoUI()">Calcular</button>
+                <div id="resultCirculo" class="result">
+                    <div class="result-label">Área del Círculo:</div>
+                    <div class="result-value"></div>
+                </div>
+            </div>
+
+            <!-- Rectángulo -->
+            <div class="section">
+                <h2>Área del Rectángulo</h2>
+                <div class="input-group">
+                    <div class="form-group">
+                        <label for="baseRectangulo">Base:</label>
+                        <input type="number" id="baseRectangulo" placeholder="Ej: 10" step="0.01">
+                    </div>
+                    <div class="form-group">
+                        <label for="alturaRectangulo">Altura:</label>
+                        <input type="number" id="alturaRectangulo" placeholder="Ej: 5" step="0.01">
+                    </div>
+                </div>
+                <button onclick="calcularAreaRectanguloUI()">Calcular</button>
+                <div id="resultRectangulo" class="result">
+                    <div class="result-label">Área del Rectángulo:</div>
+                    <div class="result-value"></div>
+                </div>
+            </div>
+
+            <!-- Triángulo -->
+            <div class="section">
+                <h2>Área del Triángulo</h2>
+                <div class="input-group">
+                    <div class="form-group">
+                        <label for="baseTriangulo">Base:</label>
+                        <input type="number" id="baseTriangulo" placeholder="Ej: 8" step="0.01">
+                    </div>
+                    <div class="form-group">
+                        <label for="alturaTriangulo">Altura:</label>
+                        <input type="number" id="alturaTriangulo" placeholder="Ej: 6" step="0.01">
+                    </div>
+                </div>
+                <button onclick="calcularAreaTrianguloUI()">Calcular</button>
+                <div id="resultTriangulo" class="result">
+                    <div class="result-label">Área del Triángulo:</div>
+                    <div class="result-value"></div>
+                </div>
+            </div>
+
+            <!-- Cilindro -->
+            <div class="section">
+                <h2>Volumen del Cilindro</h2>
+                <div class="input-group">
+                    <div class="form-group">
+                        <label for="radioCilindro">Radio:</label>
+                        <input type="number" id="radioCilindro" placeholder="Ej: 3" step="0.01">
+                    </div>
+                    <div class="form-group">
+                        <label for="alturaCilindro">Altura:</label>
+                        <input type="number" id="alturaCilindro" placeholder="Ej: 10" step="0.01">
+                    </div>
+                </div>
+                <button onclick="calcularVolumenCilindroUI()">Calcular</button>
+                <div id="resultCilindro" class="result">
+                    <div class="result-label">Volumen del Cilindro:</div>
+                    <div class="result-value"></div>
+                </div>
+            </div>
+
+            <!-- Cono -->
+            <div class="section">
+                <h2>Volumen del Cono</h2>
+                <div class="input-group">
+                    <div class="form-group">
+                        <label for="radioCono">Radio:</label>
+                        <input type="number" id="radioCono" placeholder="Ej: 4" step="0.01">
+                    </div>
+                    <div class="form-group">
+                        <label for="alturaCono">Altura:</label>
+                        <input type="number" id="alturaCono" placeholder="Ej: 12" step="0.01">
+                    </div>
+                </div>
+                <button onclick="calcularVolumenConoUI()">Calcular</button>
+                <div id="resultCono" class="result">
+                    <div class="result-label">Volumen del Cono:</div>
+                    <div class="result-value"></div>
+                </div>
+            </div>
+
+            <!-- Prisma -->
+            <div class="section">
+                <h2>Volumen del Prisma</h2>
+                <div class="input-group">
+                    <div class="form-group">
+                        <label for="basePrisma">Base:</label>
+                        <input type="number" id="basePrisma" placeholder="Ej: 6" step="0.01">
+                    </div>
+                    <div class="form-group">
+                        <label for="alturaPrisma">Altura:</label>
+                        <input type="number" id="alturaPrisma" placeholder="Ej: 8" step="0.01">
+                    </div>
+                </div>
+                <button onclick="calcularVolumenPrismaUI()">Calcular</button>
+                <div id="resultPrisma" class="result">
+                    <div class="result-label">Volumen del Prisma:</div>
+                    <div class="result-value"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB: Palíndromos -->
+        <div id="palindromos" class="tab-content">
+            <div class="section">
+                <h2>Detector de Palíndromos</h2>
+                <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                    Un palíndromo es una palabra o frase que se lee igual de izquierda a derecha que de derecha a izquierda.
+                    Ejemplos: "Ana", "Arenera", "A man a plan a canal Panama"
+                </p>
+                <div class="form-group">
+                    <label for="textoPalindromo">Ingresa un texto:</label>
+                    <input type="text" id="textoPalindromo" placeholder="Ej: Ana">
+                </div>
+                <button onclick="verificarPalindromoUI()">Verificar</button>
+                <div id="resultPalindromo" class="result">
+                    <div class="result-label">Resultado:</div>
+                    <div class="result-value"></div>
+                </div>
+            </div>
+
+            <!-- Ejemplos -->
+            <div class="section">
+                <h2>Ejemplos de Prueba</h2>
+                <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                    Haz clic en cualquier ejemplo para verificarlo automáticamente:
+                </p>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                    <button style="background-color: #e0e7ff; color: var(--primary-color); padding: 1rem;" 
+                            onclick="usarEjemploPalindromo('Ana')">Ana ✓</button>
+                    <button style="background-color: #e0e7ff; color: var(--primary-color); padding: 1rem;" 
+                            onclick="usarEjemploPalindromo('Arenera')">Arenera ✓</button>
+                    <button style="background-color: #e0e7ff; color: var(--primary-color); padding: 1rem;" 
+                            onclick="usarEjemploPalindromo('Hola')">Hola ✗</button>
+                    <button style="background-color: #e0e7ff; color: var(--primary-color); padding: 1rem;" 
+                            onclick="usarEjemploPalindromo('A man a plan a canal Panama')">A man a plan...</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Generado con ❤️ por tu Asistente de IA | Funciones Día 3</p>
+    </footer>
+
+    <script>
+        // ====== FUNCIONES DE ÁREAS ======
+        function calcularAreaCirculo(radio) {
+            return Math.PI * radio * radio;
+        }
+
+        function calcularAreaRectangulo(base, altura) {
+            return base * altura;
+        }
+
+        function calcularAreaTriangulo(base, altura) {
+            return (base * altura) / 2;
+        }
+
+        function calcularVolumenCilindro(radio, altura) {
+            return calcularAreaCirculo(radio) * altura;
+        }
+
+        function calcularVolumenCono(radio, altura) {
+            return calcularAreaCirculo(radio) * altura / 3;
+        }
+
+        function calcularVolumenPrisma(base, altura) {
+            return calcularAreaRectangulo(base, altura) * altura;
+        }
+
+        // ====== FUNCIÓN DE PALÍNDROMO ======
+        function esPalindromo(texto) {
+            const textoLimpio = texto.toLowerCase().replace(/\s+/g, '');
+            const textoInvertido = textoLimpio.split('').reverse().join('');
+            return textoLimpio === textoInvertido;
+        }
+
+        // ====== FUNCIONES DE INTERFAZ - ÁREAS ======
+        function calcularAreaCirculoUI() {
+            const radio = parseFloat(document.getElementById('radioCirculo').value);
+            if (isNaN(radio) || radio < 0) {
+                mostrarError('resultCirculo', 'Por favor, ingresa un valor válido');
+                return;
+            }
+            const resultado = calcularAreaCirculo(radio).toFixed(2);
+            mostrarResultado('resultCirculo', `${resultado} unidades²`);
+        }
+
+        function calcularAreaRectanguloUI() {
+            const base = parseFloat(document.getElementById('baseRectangulo').value);
+            const altura = parseFloat(document.getElementById('alturaRectangulo').value);
+            if (isNaN(base) || isNaN(altura) || base < 0 || altura < 0) {
+                mostrarError('resultRectangulo', 'Por favor, ingresa valores válidos');
+                return;
+            }
+            const resultado = calcularAreaRectangulo(base, altura).toFixed(2);
+            mostrarResultado('resultRectangulo', `${resultado} unidades²`);
+        }
+
+        function calcularAreaTrianguloUI() {
+            const base = parseFloat(document.getElementById('baseTriangulo').value);
+            const altura = parseFloat(document.getElementById('alturaTriangulo').value);
+            if (isNaN(base) || isNaN(altura) || base < 0 || altura < 0) {
+                mostrarError('resultTriangulo', 'Por favor, ingresa valores válidos');
+                return;
+            }
+            const resultado = calcularAreaTriangulo(base, altura).toFixed(2);
+            mostrarResultado('resultTriangulo', `${resultado} unidades²`);
+        }
+
+        function calcularVolumenCilindroUI() {
+            const radio = parseFloat(document.getElementById('radioCilindro').value);
+            const altura = parseFloat(document.getElementById('alturaCilindro').value);
+            if (isNaN(radio) || isNaN(altura) || radio < 0 || altura < 0) {
+                mostrarError('resultCilindro', 'Por favor, ingresa valores válidos');
+                return;
+            }
+            const resultado = calcularVolumenCilindro(radio, altura).toFixed(2);
+            mostrarResultado('resultCilindro', `${resultado} unidades³`);
+        }
+
+        function calcularVolumenConoUI() {
+            const radio = parseFloat(document.getElementById('radioCono').value);
+            const altura = parseFloat(document.getElementById('alturaCono').value);
+            if (isNaN(radio) || isNaN(altura) || radio < 0 || altura < 0) {
+                mostrarError('resultCono', 'Por favor, ingresa valores válidos');
+                return;
+            }
+            const resultado = calcularVolumenCono(radio, altura).toFixed(2);
+            mostrarResultado('resultCono', `${resultado} unidades³`);
+        }
+
+        function calcularVolumenPrismaUI() {
+            const base = parseFloat(document.getElementById('basePrisma').value);
+            const altura = parseFloat(document.getElementById('alturaPrisma').value);
+            if (isNaN(base) || isNaN(altura) || base < 0 || altura < 0) {
+                mostrarError('resultPrisma', 'Por favor, ingresa valores válidos');
+                return;
+            }
+            const resultado = calcularVolumenPrisma(base, altura).toFixed(2);
+            mostrarResultado('resultPrisma', `${resultado} unidades³`);
+        }
+
+        // ====== FUNCIONES DE INTERFAZ - PALÍNDROMOS ======
+        function verificarPalindromoUI() {
+            const texto = document.getElementById('textoPalindromo').value.trim();
+            if (texto === '') {
+                mostrarError('resultPalindromo', 'Por favor, ingresa un texto');
+                return;
+            }
+            const esPalin = esPalindromo(texto);
+            if (esPalin) {
+                mostrarResultado('resultPalindromo', `✓ "${texto}" es un PALÍNDROMO`, true);
+            } else {
+                mostrarError('resultPalindromo', `✗ "${texto}" NO es un palíndromo`);
+            }
+        }
+
+        function usarEjemploPalindromo(texto) {
+            document.getElementById('textoPalindromo').value = texto;
+            verificarPalindromoUI();
+        }
+
+        // ====== FUNCIONES AUXILIARES ======
+        function mostrarResultado(elementId, valor, esExito = false) {
+            const elemento = document.getElementById(elementId);
+            elemento.classList.add('show');
+            elemento.classList.remove('error');
+            if (esExito) {
+                elemento.classList.add('success');
+            }
+            elemento.querySelector('.result-value').textContent = valor;
+        }
+
+        function mostrarError(elementId, mensaje) {
+            const elemento = document.getElementById(elementId);
+            elemento.classList.add('show', 'error');
+            elemento.classList.remove('success');
+            elemento.querySelector('.result-value').textContent = mensaje;
+        }
+
+        // ====== SISTEMA DE TABS ======
+        document.querySelectorAll('.tab-button').forEach(button => {
+            button.addEventListener('click', function() {
+                const tabName = this.getAttribute('data-tab');
+                
+                // Remover clase active de todos los botones y contenidos
+                document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+                
+                // Agregar clase active al botón y contenido seleccionados
+                this.classList.add('active');
+                document.getElementById(tabName).classList.add('active');
+            });
+        });
+
+        // Permitir Enter en inputs para calcular
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const activeTab = document.querySelector('.tab-content.active');
+                const buttons = activeTab.querySelectorAll('button');
+                if (buttons.length > 0) {
+                    buttons[0].click();
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
