@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <!DOCTYPE html>
+    <html lang="es">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Tamagotchi IA</title>
+        <link rel="stylesheet" href="styles.css">
+        <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    </head>
+
+<body>
+    <div class="game-container">
+        <h1>Hornet Tamagotchi</h1>
+
+        <div class="screen">
+            <div class="message-box" id="ai-message">
+                Vigilando Pharloom...
+            </div>
+            <div class="pet-display">
+                <img src="hornet.png" id="pet-img" class="pet-img" alt="Hornet">
+                <div id="status-icon" class="status-icon"></div>
+            </div>
+        </div>
+
+        <div class="stats-container">
+            <div class="stat-box">
+                <label>Seda (Hambre)</label>
+                <div class="progress-bar">
+                    <div class="fill" id="hunger-bar" style="width: 0%;"></div>
+                </div>
+                <span id="hunger-val">0%</span>
+            </div>
+            <div class="stat-box">
+                <label>Máscaras (Energía)</label>
+                <div class="progress-bar">
+                    <div class="fill" id="energy-bar" style="width: 100%;"></div>
+                </div>
+                <span id="energy-val">100%</span>
+            </div>
+            <div class="stat-box">
+                <label>Voluntad (Felicidad)</label>
+                <div class="progress-bar">
+                    <div class="fill" id="happiness-bar" style="width: 100%;"></div>
+                </div>
+                <span id="happiness-val">100%</span>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button onclick="feed()">🕸️ Cazar</button>
+            <button onclick="sleep()">🪑 Descansar</button>
+            <button onclick="play()">⚔️ Entrenar</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
